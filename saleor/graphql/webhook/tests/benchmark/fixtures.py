@@ -57,7 +57,7 @@ def _prepare_app_webhooks(index, app):
 
 
 @pytest.fixture
-def webhooks_with_events(db):
+def webhook_events(db):
     apps = App.objects.bulk_create(
         [
             App(name="App1", is_active=True),

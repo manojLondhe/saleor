@@ -31,7 +31,7 @@ query {
 @pytest.mark.django_db
 @pytest.mark.count_queries(autouse=False)
 def test_webhooks(
-    staff_api_client, webhooks_with_events, permission_manage_apps, count_queries
+    staff_api_client, webhook_events, permission_manage_apps, count_queries
 ):
     content = get_graphql_content(
         staff_api_client.post_graphql(

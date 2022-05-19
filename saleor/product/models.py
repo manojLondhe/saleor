@@ -59,6 +59,7 @@ from ..core.weight import zero_weight
 from ..discount import DiscountInfo
 from ..discount.utils import calculate_discounted_price
 from ..seo.models import SeoModel, SeoModelTranslation
+from ..tax.models import TaxClass
 from . import ProductMediaTypes, ProductTypeKind
 
 if TYPE_CHECKING:
@@ -158,6 +159,13 @@ class ProductType(ModelWithMetadata):
         measurement=Weight,
         unit_choices=WeightUnits.CHOICES,  # type: ignore
         default=zero_weight,
+    )
+    tax_class = models.ForeignKey(
+        TaxClass,
+        related_name="product_types",
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
     )
 
     class Meta(ModelWithMetadata.Meta):
@@ -423,6 +431,13 @@ class Product(SeoModel, ModelWithMetadata):
         related_name="+",
     )
     rating = models.FloatField(null=True, blank=True)
+    tax_class = models.ForeignKey(
+        TaxClass,
+        related_name="products",
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+    )
 
     objects = models.Manager.from_queryset(ProductsQueryset)()
     translated = TranslationProxy()
